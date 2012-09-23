@@ -1,5 +1,5 @@
 
-Installation and prerequisites for 'Image Filter Lab' version 0.3
+Installation and prerequisites
 ----------------------------
 
 Most software needed to run 'Image Filter Lab' is included in a 
@@ -44,7 +44,3 @@ There are a few steps to setup Eclipse before you start.
 To run the program, just run filter_lab.py in the "src"-directory.
 There might be some error messages that hasn't been sorted out yet
 when closing the program.
-
-
-Send any questions or bugs to Lennart Liberg, lliberg@kth.se
-	
