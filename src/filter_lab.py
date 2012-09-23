@@ -11,9 +11,7 @@
 #Feature request: Use the networkx graph library to layout graphs pretty.
 #Feature request: Make each filter have it's own thread.
 #Feature request: Convert code to exception throwing and catching style instead of return codes style.
-#Feature request: Abandon pickling and save filters as code generating new filters with same params when loading. 
-
-
+ 
 from __future__ import division, absolute_import
 import os,sys
 import time
