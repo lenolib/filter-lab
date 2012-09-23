@@ -1,0 +1,1 @@
+pyuic4 viewer.ui -o viewerUi.py

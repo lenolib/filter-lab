@@ -1,0 +1,50 @@
+
+Installation and prerequisites for 'Image Filter Lab' version 0.3
+----------------------------
+
+Most software needed to run 'Image Filter Lab' is included in a 
+package called 'Python(x,y)' which is available for windows and can be
+downloaded at 
+	http://www.pythonxy.com/
+Make sure to choose the 'full' option in the installer.
+If an earlier version is already installed, it might be a good idea to uninstall it.
+	
+	
+Sadly, the module 'pyopencv' which is used to access OpenCV functions
+from Python is not included in the latest versions  because of lack of 
+maintenance. There is a official OpenCV wrapper for Python included 
+instead, but it does not work as well. Therefore please download and install
+pyopencv-2.1.0.wr1.2.0.win32-py2.7.exe (or the -py2.6 for Python 2.6) from 
+	http://code.google.com/p/pyopencv/downloads
+
+	
+To make changes and development, the well known Eclipse IDE works great.
+There are a few steps to setup Eclipse before you start.
+1. Download and install Eclipse from the link below 
+	(Choose for example the 'Eclipse IDE for Java Developers' flavor, all of them work)
+	http://www.eclipse.org/downloads/
+	Choose a folder as a workspace and close the welcoming screen.
+
+2. Install the PyDev extension in order to support Python
+   by going to menu Help->Eclipse marketplace and search for 'pydev'.		
+		Alternatively:  *go to menu Help->Install new software, 
+						*click 'Add...' and enter "Pydev" and "http://pydev.org/updates"
+						*check and install 'PyDev'
+
+3. Add the project with the source program files by going to 
+	menu File -> Import -> General -> Existing projects into workspace
+	Select the directory containing the program.
+	Switch to the PyDev perspective by clicking in the top right corner of eclipse.
+						
+4. Add auto-completion for the pyopencv module's function by going
+   to menu Window -> Preferences -> PyDev -> Interpreter Python -> 
+				Forced builtins tab->New... and type in 'pyopencv'.
+
+
+To run the program, just run filter_lab.py in the "src"-directory.
+There might be some error messages that hasn't been sorted out yet
+when closing the program.
+
+
+Send any questions or bugs to Lennart Liberg, lliberg@kth.se
+	

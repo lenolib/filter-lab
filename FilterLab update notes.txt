@@ -1,0 +1,191 @@
+(2011-oct-18) Version 0.3 notes:
+*Saved filter files can now be run and edited independently. All new loading and saving mechanism. There is no more 
+pickling, which makes saved files usable even if the source code of the filters of the main program changes, unless 
+the names of classes and parameters changes.
+*Pyopencv version 1.2.0 seems to be working after having exchanged all calls to pyopencv.Mat.from_ndarray()
+to pyopencv.asMat().
+*Fixed a small bug where deleted filters would not be removed from the filter list.
+*Added a smarter way to position new filters.
+*Added a fix so that saving and loading filters work with later PyQt versions (it became broken in versions after 4.5.4)
+*Bicubic resizing now works properly on float-images, and there is functionality to resize just according to height or width.
+*The PyQt-signaling has been updated to 'new style', which might possibly have introduced some easily fixable bugs.
+*Rearranged the GUI and most notably added menus and hotkeys for different actions.
+*Added a "Auto-connect" function which attempts to connect filters automatically.
+*Added other convenience functions for selecting and ordering filters.
+*Made stopping processing quicker by having the ability to request filters to stop processing (they occasionally call their abortQuery)
+*Made filters selectable in the list of filters and timings.
+*Various fixes and improvements.
+*A few extension to the Img_filter class.
+See it's documentation in img_filters/img_filter.py
+*Filters can now be disabled and enabled.
+*The "Specified operation" filter now accepts ordinary multi-line python code through a new type of parameter ('codebox')
+*The GUI elements are now resizable.
+*Changed various attributes' names to emphasize that input and output does not have to be images, 
+but really anything at all.
+
+(2011-april-6) Version 0.2.6 notes:
+*Cleaned up and made some changes to the gabor filter after suggestions from Shioiri-sensei.
+*Added a few parameters to the histogram filter.
+*Restructured the input filter which exhibited signs of spaghetti code
+
+(2011-march-31) Version 0.2.5 notes:
+*Fixed a bug where the input filter would run twice. It now run's twice as fast!
+*There's now a 'Restart' button to reload all the video and camera input in the scene.
+*The input filter now keeps track of which frame they're at, which get's displayed in the 
+mouse-over tool-tips.
+*Fixed that an input filter now returns FAIL when it's process-function is called and
+nothing is connected to it.
+*Added a color blindness filter for protanopes and deuteranopes that could be extended to simulate
+other types. See code comments for details how the calculations are made.
+*Changed the HSL/HSV-RGB transformation filter into a colorspace transformation filter with more options.
+*The graphical appearance of filters is now more compact with less space between inputs and outputs.
+*The file-chooser parameter type now saves a history in a drop down box of past files which makes it 
+easy to return to a previous one.
+*Various speedups mostly due to removal of unnecessary type conversions.
+*Added an option to choose output data type in the 'Load image' filter. 
+*Various bug fixes.
+
+
+(2010-november-25) Version 0.2.4 notes:
+*A bit of house-keeping; tidier imports, exception handling in load_image()
+*Discovered that pyopencv version 1.2.0 and 1.1.0does not seems to work on my system (Win7).
+Older versions, e.g. 1.0.2, still work.
+*It is now possible to right click on displays to quickly move them to a new tab view.
+*There is a new list of all the filters added to the scene, and the time they take to execute 
+(timing is now done automatically)
+*There is now a help button which displays a concise user's manual.
+*Various bug fixes concerning selection of filters.
+*Added a "Specify transform" filter that takes enables the user to perform any math or other 
+operation on the input images of the filter
+*Fixed the bug with word-wrapped too long filenames and connectors getting misplaced.
+*Added a "Time lag" filter that returns the a the n'th previous frame and can be used for 
+inter-frame difference calculations, among other things.
+*The curve-filter now works reasonably well. The lookup-table interpolation is done
+by using a spline-function that overshoots a bit at the ends it seems, but other than that, 
+should suffice.
+*Added a histogram filter, albeit very slow.
+*Added a RGB/HSL/HSV conversion filter.
+*Fixed the long-standing critical bug where the program would crash when adding filters
+after having removed some.
+*The display filter can now handle multichannel images. Some other filters can also, but not all.
+*There is now some exception handling if an error occurs when processing a filter. 
+*Added mouseover tooltips to the filters in the filter list so it's possible to read their descriptions 
+without creating instances of them.
+*Closing the application works better now with proper destruction of the 'load image' filters.
+*Moved the QImage creation into the display filter and thus also into the worker thread,
+should make the GUI a little bit more responsive.
+*Images can now be resized in the display filters.
+*The save filter now only runs once per loop.
+*A lot of other bug fixes.
+
+(2010-september-5) Version 0.2.3 notes:
+*A serious memory leak was fixed in filters using opencv functions.
+*The whole program now uses only the pyopencv OpenCV wrapper.
+
+(2010-august-19) Version 0.2.2 notes:
+*Added a "Remap" filter that can remap the pixel value range in an image.
+*Various small bug fixes.
+*Started progressing to use the 'pyopencv' opencv wrapper instead of 'ctypes_opencv'. 
+This seems like a better approach in the long run. The difference between them is that 
+pyopencv uses the C++ interface to OpenCV, whereas ctypes_opencv uses the C interface.
+At the moment, both are still used though.
+
+(2010-august-17) Version 0.2.1 notes:
+*Added a "Fourier transform" filter
+*Added a "Rotate and flip" filter
+*Added a "Crop" filter
+*Added a "Split" filter which can split an image into two or four parts.
+*Added a "Smooth" filter
+*It's now possible to specify the order in which the parameters of a filter
+will be drawn i the GUI by giving each parameter a 'rank' value.
+*Fixed a bug where the displayed pictures would always get fitted to the 0-255 range.
+Now that only happens to floating point images whose maximum or minimum pixel values
+lies outside the 0-1 range.
+
+(2010-august-16) Version 0.2.0 notes:
+*Changing a parameters value with 'setParamContent' inside a filter now also updates the 
+value displayed in the gui, except for the 'list' parameter type, though this is still untested.
+*The resize filter now has a 'resize by percentage' option.
+*Added units to the parameters in the gabor filter, along with a new parameter, 'Field of view', 
+which is still not used for anything.
+
+(2010-august-10) Version 0.1.9 notes:
+*Images are now processed as floating point matrices, where the 0-255 range corresponds to 0-1.
+Some filter's output images with negative values, such as the gabor filter. Use the new 'Clip' filter 
+to threshhold the output.
+*Renamed the 'Curve' filter to 'Clip', which is what it does.
+*Added a new 'Blend together' filter which blends the input images together.
+*Added a 'Again' button for reprocessing the same image in a image sequence instead of the next one.
+*Various bug fixes here and there.
+*Enabled the functions written in 'Cython', so all filters should now run reasonably fast.
+*Cleaned up the code in the Gabor filter.
+*Added a new Parameter widget, 'text', in which the user can input plain 
+text the filter can use any way it likes.
+*Added the option of letting the Viewer window always stay on top.
+
+(2010-august-6) Version 0.1.8 notes:
+*Added the option to use pyopencv instead of ctypes_opencv. 
+It's not an ideal solution, so it will probably be removed in a 
+future version.
+
+(2010-august-2) Version 0.1.7 notes:
+*Filters can now be deleted by pressing the 'Delete' key.
+*Closing the Viewer window now pauses the processing.
+*The program now pauses if there is nothing to do, that is, if there is no new input.
+*The positions of the filters are now saved when saving a collection of filters.
+*The program now checks for connections to unselected filters when saving, 
+and aborts if such connections exists.
+*If removing the last tab of a tabview, the tab will be deleted.
+
+(2010-july-30) Version 0.1.6 notes:
+*Images are now displayed in tabs, which are possible to drag between tab views.
+This is a big change, enabling displays to be hidden behind other tabs, and thus not 
+having an implicit reason for not needing to be processed.
+*Adding new filters of the same kind and a sequence number to their name for easier identification.
+*It's now possible to save a numbered sequence of image files to a folder.
+*Filters' tooltips now word wraps.
+*When loading a filter file with many filters, they are all selected by default so the user can move them.
+*Fixed a display bug when moving multiple filters.
+*The result images now update in real-time when dragging parameter sliders. Hopefully no new 
+bugs are intruduced with this feature.
+
+(2010-july-27) Version 0.1.5 notes:
+*Moving of multiple filters does now work without display glitches.
+*There is a bug that crashes the program when deleting all the filters 
+in a scene at once and then adding new ones.
+*The code's classes and functions are now documented.
+*There seems to be bug at the moment that freezes the GUI when using slow filters.
+
+(2010-july-23) Version 0.1.4 notes:
+*The 'Saved filters' list and button is now working. 
+*Added a new button to click through a video file (or camera) frame by frame.
+
+(2010-july-21) Version 0.1.3 notes:
+*Fixed the speed issue when converting to and from OpenCV image format, 
+so the gabor filter is not running at full speed, and using OpenCV functions from python is now easier.
+*Added a resize filter
+*Moved the elements around in the GUI, and added a 'Saved filters' list, where saved filters 
+in a certain folder will be displayed later.
+*It is now possible to change names and descriptions for filters.
+
+(2010-july-20) Version 0.1.2 notes:
+*Saving and loading should now be working again. 
+*Having multiple camera-input filters does not work very well. Multiple video-inputs 
+works though, if just slowly.
+
+(2010-july-16) Version 0.1.1 notes:
+*The camera and video input should now be working.
+*If you are using the camera or video input, be sure to set 
+the input filter to 'Image' before closing the program, otherwise
+the camera or video streams will not get released and the programs's
+process will still run in the background.
+*When changing a value-parameter, the filter will only update when 
+releasing the slider with the mouse, not when dragging. This will
+be fixed soon.
+*It is now possible to double click on filters in the list to add them.
+The save and load functionality is probably broken in this version.
+*The gabor-filter are currently running three times as slow as it
+should because of a openCV-python image conversion bug.
+*The Curve and Opponent images are also running slow because of 
+using python implementations of them instead of c-code, 
+so they can run on MacOS without re-compilation.
