@@ -21,7 +21,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import sys 
 import traceback
-import pyopencv as pycv
+#import pyopencv as pycv
+import cv2
 
 SUCCESS = (1) #Defined as tuples to produce singletons (unique memory addresses for comparisons)
 FAIL = (0)
@@ -834,21 +835,19 @@ def arr2pixmap(disp_im):
 def pycv_power(arr, exponent):
     """Raise the elements of a floating point matrix to a power. 
     It is 3-4 times faster than numpy's built-in power function/operator."""
-    if arr.dtype not in [numpy.float32, numpy.float64]:
-        arr = arr.astype('f')
-    res = numpy.empty_like(arr)
+#    if arr.dtype not in [numpy.float32, numpy.float64]:
+#        arr = arr.astype('f')
     if arr.flags['C_CONTIGUOUS'] == False:
         arr = numpy.ascontiguousarray(arr)        
-    pycv.pow(pycv.asMat(arr), float(exponent), pycv.asMat(res))
-    return res    
+    return cv2.pow(arr, exponent)
 
 def resize(image, percent=None, new_H=None, new_W=None, aspect_ratio=1, method='Bilinear'):
     if method == 'Bilinear':
-        method = pycv.INTER_LINEAR
+        method = cv2.INTER_LINEAR
     elif method == 'Nearest-neighbor':
-        method = pycv.INTER_NEAREST
+        method = cv2.INTER_NEAREST
     elif method == 'Bicubic':
-        method = pycv.INTER_CUBIC
+        method = cv2.INTER_CUBIC
     else:
         raise Exception("Invalid resize method.")    
     old_W = image.shape[1]
@@ -868,36 +867,31 @@ def resize(image, percent=None, new_H=None, new_W=None, aspect_ratio=1, method='
         raise Exception("Wrong arguments to resize function.")
     limit = 10000
     if new_W > limit : 
-        print "Image resize limit has been set to %d pixels. Limiting to %d." %(limit)
+        print "Image resize limit has been set at %d pixels. Limiting to %d." %(limit)
         new_W = limit
     if new_H > limit: 
-        print "Image resize limit has been set to %d pixels. Limiting to %d." %(limit)
+        print "Image resize limit has been set at %d pixels. Limiting to %d." %(limit)
         new_H = limit
     if image.flags['C_CONTIGUOUS'] == False:
         image = numpy.ascontiguousarray(image)
     
     if image.dtype == 'uint8':
         np_type = 'uint8'
-        cv_type = pycv.CV_8U
+        cv_type = cv2.CV_8U
     elif image.dtype == 'float32':
         np_type = 'float32'
-        cv_type = pycv.CV_32F
+        cv_type = cv2.CV_32F
     else:
         raise Exception("Unsupported data type for resize.")
     
     if (old_W,old_H)==(new_W,new_H): return image
-    if image.ndim == 3:
-        res = numpy.empty((new_H,new_W,3),np_type)
-    elif image.ndim == 2:
-        res = numpy.empty((new_H,new_W),np_type)
-    else:
-        raise Exception("Can't handle image dimensions when resizing.")
-    pycv.resize(pycv.asMat( image ), 
-                pycv.asMat( res ), 
-                pycv.Size2i(new_W,new_H), 
-                cv_type,
-                interpolation=method)
-    return res
+#    if image.ndim == 3:
+#        res = numpy.empty((new_H,new_W,3),np_type)
+#    elif image.ndim == 2:
+#        res = numpy.empty((new_H,new_W),np_type)
+#    else:
+#        raise Exception("Can't handle image dimensions when resizing.")
+    return cv2.resize(image, (new_W,new_H), interpolation=method)
 
 def keep_busy(busy_time):
     "Keep busy to achieve a busy sleep for debugging purposes"
