@@ -9,7 +9,7 @@ if __name__ == "__main__":
 	from Cython.Distutils import build_ext
 	ext_modules = [Extension(
 			"cython_functions",
-			sources=["filters_package/cython_functions.pyx"]
+			sources=["cython_functions.pyx"]
 		)]
 
 	setup(

@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-    
 
 ##Development notes (To-do list):
@@ -205,8 +206,8 @@ In '%s': An exception in 'processParams()' was caught safely. Exception was:\n" 
 
     def waitFPS(self, past_clocking, fps_limit):
         """Wait until the given frames-per-second has been achieved."""
-        timing = time.clock()-past_clocking + 1e-9
-        if 1/timing > fps_limit and fps_limit != 0:
+        timing = time.clock()-past_clocking
+        if 1/(timing+1e-9) > fps_limit and fps_limit != 0:
             self.mutex2.lock()
             wait_time = int( (1/fps_limit-timing)*1000 ) 
             self.condition.wait(self.mutex2, wait_time)
@@ -293,7 +294,7 @@ In '%s': An exception in 'processParams()' was caught safely. Exception was:\n" 
                 
                 self.emitTimings()
                 self.waitFPS(begun_t, self.parent().ui.fps_limit_spin.value())
-                timing = time.clock()-begun_t    
+                timing = time.clock()-begun_t
                          
                 if self.activeState in [NEXT,AGAIN,UPDATE]:
                     self.setActiveState(PAUSE)
@@ -301,7 +302,7 @@ In '%s': An exception in 'processParams()' was caught safely. Exception was:\n" 
                 elif self.activeState == PAUSE:
                     self.status_update.emit("Status: Paused")
                 elif self.activeState == LOOP:
-                    self.status_update.emit("Status: Running at: %.2f fps (%.2f s)..." %(1/timing, timing))    
+                    self.status_update.emit("Status: Running at: %.2f fps (%.2f s)..." %(1/(timing+1e-9), timing))    
                 
                 for fltr in self.filters: fltr.setAbort(False)                             
             elif self.activeState == PAUSE:

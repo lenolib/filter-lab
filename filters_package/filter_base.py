@@ -23,8 +23,8 @@ import sys
 import traceback
 #import pyopencv as pycv
 import cv2
-import pyximport
-pyximport.install()
+#import pyximport
+#pyximport.install()
 
 SUCCESS = (1) #Defined as tuples to produce singletons (unique memory addresses for comparisons)
 FAIL = (0)
