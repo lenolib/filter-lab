@@ -205,7 +205,7 @@ In '%s': An exception in 'processParams()' was caught safely. Exception was:\n" 
 
     def waitFPS(self, past_clocking, fps_limit):
         """Wait until the given frames-per-second has been achieved."""
-        timing = time.clock()-past_clocking
+        timing = time.clock()-past_clocking + 1e-9
         if 1/timing > fps_limit and fps_limit != 0:
             self.mutex2.lock()
             wait_time = int( (1/fps_limit-timing)*1000 ) 
