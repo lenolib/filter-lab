@@ -4,6 +4,10 @@ from filter_base import Filter_base
 
 import os
 import inspect
+
+import pyximport
+pyximport.install()
+
 filter_class_name_dict = {}
 filter_given_name_dict = {}
 
